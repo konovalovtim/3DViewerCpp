@@ -32,19 +32,21 @@ endif
 all: clean install gcov_report
 
 install:
-	@echo "Installing start..."
-	@mkdir -p ../build
-	@cmake -B ../build
-	@cd ../build && make
-	@mkdir -p ../app
-ifeq ($(OS), Darwin)
-	@mv ../build/$(PROJECT_NAME).app ../$(APP)
-else
-	@mv ../build/$(PROJECT_NAME) ../$(APP)/$(PROJECT_NAME).app
-endif
-	@-ln ../$(APP)/$(PROJECT_NAME).app ~/Desktop/
-	@rm -rf ../build
-	@echo "Installing success"
+# 	@echo "Installing start..."
+# 	@mkdir -p ../build
+# 	@cmake -B ../build
+# 	@cd ../build && make
+# 	@mkdir -p ../app
+# ifeq ($(OS), Darwin)
+# 	@mv ../build/$(PROJECT_NAME).app ../$(APP)
+# else
+# 	@mv ../build/$(PROJECT_NAME) ../$(APP)/$(PROJECT_NAME).app
+# endif
+# 	@-ln ../$(APP)/$(PROJECT_NAME).app ~/Desktop/
+# 	@rm -rf ../build
+# 	@echo "Installing success"
+	cd ../build && cmake ../src/. && make
+	open ../build/3DViewer_v1.app
 
 open_app:
 	@open $(QT_APP_FOLDER)/$(QT_PROJECT_NAME)*
@@ -68,7 +70,7 @@ dvi:
 	@doxygen conf && mv html documentation
 	@open documentation/index.html
 
-clean:
+clean: uninstall
 	-rm -f *.gcda *.gcov *.o *.gcno *.tgz test main_test.c ../$(QT_PROJECT_NAME)_Archive.tgz
 	-rm -rf $(QT_BUILD_FOLDER) $(GCOV_DIR) html $(TAR_SOURCE) build
 	-rm -rf *.html *.info documentation/ html/ *.stash *.gz *.gcda
