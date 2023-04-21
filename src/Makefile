@@ -31,28 +31,20 @@ endif
 
 all: clean install gcov_report
 
-generate_make:
-	@qmake $(QT_PROJECT_FOLDER)/$(QT_PRO) -o ./$(QT_BUILD_FOLDER)/$(QT_MAKEFILE)
-
-install: generate_make
-	@echo "Building application..."
-	@cd ./$(QT_BUILD_FOLDER) && make -sf $(QT_MAKEFILE)
-	@echo "Application builded."
-	@echo -n "Moving application to folder \"$(QT_APP_FOLDER)\"..."
-	@mkdir ./$(QT_APP_FOLDER)
-ifeq ($(UNAME), Darwin)
-	@mv ./$(QT_BUILD_FOLDER)/$(QT_PROJECT_NAME).app ./$(QT_APP_FOLDER)/$(QT_PROJECT_NAME).app
+install:
+	@echo "Installing start..."
+	@mkdir -p ../build
+	@cmake -B ../build
+	@cd ../build && make
+	@mkdir -p ../app
+ifeq ($(OS), Darwin)
+	@mv ../build/$(PROJECT_NAME).app ../$(APP)
 else
-	@mv ./$(QT_BUILD_FOLDER)/$(QT_PROJECT_NAME) ./$(QT_APP_FOLDER)/$(QT_PROJECT_NAME)
+	@mv ../build/$(PROJECT_NAME) ../$(APP)/$(PROJECT_NAME).app
 endif
-	@echo "\nDone."
-	@echo -n "Deleting build folder..."
-	@rm -rf $(QT_BUILD_FOLDER)
-	@echo "\nDone."
-	@echo "Installation complete!"
-#	@mkdir build
-#	@cd build/ && qmake ../3DViewer_v1.pro && make
-	@open $(QT_APP_FOLDER)/$(QT_PROJECT_NAME)*
+	@-ln ../$(APP)/$(PROJECT_NAME).app ~/Desktop/
+	@rm -rf ../build
+	@echo "Installing success"
 
 open_app:
 	@open $(QT_APP_FOLDER)/$(QT_PROJECT_NAME)*

@@ -11,6 +11,7 @@
 #include "backend/3d_viewer.h"
 #include "options.h"
 #include "ui_mainwindow.h"
+#include <glview.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
