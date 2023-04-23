@@ -1,11 +1,13 @@
 #include "model.h"
 
+using namespace s21;
+
 void PartObject::ParsingVertex(std::string &line) {
-  int count_vertex{};
-  char *token = std::strtok(line.data() + 1, " ");
+  int count_vertex = 0;
+  char *token = std::strtok(const_cast<char *>(line.data() + 1), " ");
   while (token) {
     ++count_vertex;
-    vertexes.push_back(std::stod(token));
+    vertexes_.push_back(std::stod(token));
     token = strtok(nullptr, " ");
   }
   if (count_vertex != 3) {
@@ -15,11 +17,11 @@ void PartObject::ParsingVertex(std::string &line) {
 
 void PartObject::ParsingFacet(std::string &line,
                               std::size_t &position_old_vertexes) {
-  if (vertexes.empty()) {
+  if (vertexes_.empty()) {
     throw std::invalid_argument("Invalid file .obj");
   }
-  char *token = std::strtok(line.data() + 1, " ");
-  std::vector<unsigned> face{};
+  char *token = std::strtok(const_cast<char *>(line.data() + 1), " ");
+  std::vector<unsigned> face;
   while (token) {
     long tmp = std::stol(token);
     if (tmp < 0) {
@@ -35,12 +37,12 @@ void PartObject::ParsingFacet(std::string &line,
       break;
     }
   }
-  facets.push_back(face);
+  facets_.push_back(face);
 }
 
 void PartObject::OpenObject(std::string line) {
   std::ifstream file_in(line);
-  std::size_t position_old_vertexes{};
+  std::size_t position_old_vertexes;
   while (std::getline(file_in, line)) {
     if (line.length() < 2) {
       continue;
