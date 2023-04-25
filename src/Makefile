@@ -1,108 +1,89 @@
-.PHONY: all install uninstall clean dvi dist test gcov_report generate_make
+.PHONY: all install uninstall clean dvi dist tests gcov_report rebuild open_app tar_dependence
+
 # =========================================== VAR ==================================================
-CC := gcc
-GCOVFLAGS := -fprofile-arcs -ftest-coverage
-HEADER := backend/3d_viewer.h
-TESTS := test
-UNAME := $(shell uname -s)
 
-GCOV_DIR = report
-QT_PROJECT_NAME = 3DViewer_v1
-QT_PROJECT_FOLDER = .
-QT_PRO = $(QT_PROJECT_NAME).pro
-QT_MAKEFILE = $(QT_PROJECT_NAME)_Makefile
-QT_BUILD_FOLDER = ../build
-QT_APP_FOLDER = ../app
-TAR_SOURCE = ../tar/
-TAR_DIR = $(TAR_SOURCE)$(QT_PROJECT_NAME)_Archive
-
-# =========================================== OS ===================================================
-
-ifeq ($(UNAME),Linux)
-	LDFLAGS = -pthread -lcheck_pic -pthread -lrt -lm -lsubunit
-	OPEN_CM = xdg-open
-endif
-ifeq ($(UNAME),Darwin)
-	LDFLAGS = -lcheck
-	OPEN_CM = open
+CXX = g++
+CXX_FLAGS = -Wall -Werror -Wextra -std=c++17 -lgtest -lgtest_main --coverage
+OS = $(shell uname -s)
+PROJECT_NAME = 3DViewer
+APP = ../app
+BUILD = ../build
+REPORT = ../report
+DOCUMENTATION = ../documentation
+DIST = ../dist
+ifeq ($(OS), Darwin)
+	OPEN = open
+else
+	OPEN = xdg-open
 endif
 
 # ========================================= TARGETS ================================================
 
-all: clean install gcov_report
+all: install open_app
 
-generate_make:
-	@qmake $(QT_PROJECT_FOLDER)/$(QT_PRO) -o ./$(QT_BUILD_FOLDER)/$(QT_MAKEFILE)
+tar_dependence:
+	@tar xvzf GIFCreation.tar.gz
 
-install: generate_make
+install: uninstall tar_dependence
 	@echo "Building application..."
-	@cd ./$(QT_BUILD_FOLDER) && make -sf $(QT_MAKEFILE)
-	@echo "Application builded."
-	@echo -n "Moving application to folder \"$(QT_APP_FOLDER)\"..."
-	@mkdir ./$(QT_APP_FOLDER)
-ifeq ($(UNAME), Darwin)
-	@mv ./$(QT_BUILD_FOLDER)/$(QT_PROJECT_NAME).app ./$(QT_APP_FOLDER)/$(QT_PROJECT_NAME).app
-else
-	@mv ./$(QT_BUILD_FOLDER)/$(QT_PROJECT_NAME) ./$(QT_APP_FOLDER)/$(QT_PROJECT_NAME)
-endif
-	@echo "\nDone."
-	@echo -n "Deleting build folder..."
-	@rm -rf $(QT_BUILD_FOLDER)
-	@echo "\nDone."
+	@cmake -B $(BUILD)
+	@cd $(BUILD) && make
+	@echo "Application build."
+	@echo "Moving application to folder '$(APP)'..."
+	@mkdir -p $(APP)
+	@mv $(BUILD)/$(PROJECT_NAME) ./$(APP)/$(PROJECT_NAME).app
+	@echo "Done.\n"
+	@echo "Deleting build folder..."
+	@rm -rf $(BUILD)
+	@echo "Done.\n"
+	@-ln $(APP)/$(PROJECT_NAME).app ~/Desktop/
 	@echo "Installation complete!"
-#	@mkdir build
-#	@cd build/ && qmake ../3DViewer_v1.pro && make
-	@open $(QT_APP_FOLDER)/$(QT_PROJECT_NAME)*
 
 open_app:
-	@open $(QT_APP_FOLDER)/$(QT_PROJECT_NAME)*
+ifeq ($(OS), Darwin)
+	@open $(APP)/$(PROJECT_NAME).app
+else
+	@./$(APP)/$(PROJECT_NAME).app
+endif
 
+uninstall:
+	@echo "Uninstalling start..."
+	@-rm -rf $(APP) ~/Desktop/$(PROJECT_NAME).app
+	@echo "Uninstalling success"
 
-uninstall: $(QT_APP_FOLDER)
-	@echo -n "Uninstalling application..."
-	@rm -rf $(QT_APP_FOLDER)
-	@echo "\nDone."
+tests: clean
+	@echo "Tests start..."
+	$(CXX) $(shell find Facade tests -name "*.cc") $(CXX_FLAGS) -o test
+	@./test
+	@-mv *.gc* Facade
+	@echo "Tests done"
+
+gcov_report: tests
+	@echo "Make report..."
+	@mkdir -p $(REPORT)
+	@lcov -t ./test -o $(REPORT)/test.info --no-external -c -d Facade
+	@genhtml -o $(REPORT)/report_html $(REPORT)/test.info
+	@echo "Report is complete"
+	@$(OPEN) $(REPORT)/report_html/index.html
 
 dist: clean
-	@mkdir ./../tar
-	@mkdir $(TAR_DIR)
-	@mkdir $(TAR_DIR)/src
-	@cp -r ./* $(TAR_DIR)/src
-	@tar cvzf $(TAR_DIR).tgz $(TAR_DIR)
-	@mv $(TAR_DIR).tgz ./..
-	@rm -rf ./../tar
+	@mkdir -p $(DIST)
+	@tar -cvzf $(DIST)/source_code.tar.gz .
+	@echo "The archive was successfully created on the path '$(DIST)'"
 
 dvi:
-	@doxygen conf && mv html documentation
-	@open documentation/index.html
+	@doxygen Doxyfile
+	@cp -r images $(DOCUMENTATION)/html
+	@$(OPEN) $(DOCUMENTATION)/html/index.html
 
 clean:
-	-rm -f *.gcda *.gcov *.o *.gcno *.tgz test main_test.c ../$(QT_PROJECT_NAME)_Archive.tgz
-	-rm -rf $(QT_BUILD_FOLDER) $(GCOV_DIR) html $(TAR_SOURCE) build
-	-rm -rf *.html *.info documentation/ html/ *.stash *.gz *.gcda
-
-check: test_C_functions.check
-	@checkmk clean_mode=1 test_C_functions.check > main_test.c
-
-test: check
-	@$(CC) backend/*ing/*.c main_test.c $(LDFLAGS) -o $(TESTS)
-	@./$(TESTS)
-
-gcov_report: check
-	@$(CC) $(GCOVFLAGS) backend/*ing/*.c main_test.c $(LDFLAGS) -o report.out
-	@./report.out
-	@lcov -t "gcov_report" -o Coverage_Report.info -c -d ./
-	@-lcov -r Coverage_Report.info 'backend/*ing/*.c' -o Coverage_Report.info
-	@genhtml -o ./$(GCOV_DIR) Coverage_Report.info
-	@rm -rf *.o *.gcno *.gcda *.info *.out *.gcov s21_matrix/*.o
-	@-$(OPEN_CM) ./report/index-sort-f.html
+	@echo "Cleaning..."
+	@rm -rf $(REPORT) Facade/*.gc* test $(BUILD)* $(DIST) logs $(DOCUMENTATION) $(APP) *.gc* Facade/*.gc*
+	@echo "Clean is done"
 
 rebuild: clean all
 
 # ========================================== STYLE =================================================
 
 style:
-	@clang-format -style=google -n *.cpp *.h backend/*ing/*.c backend/*.h
-
-correction_style:
-	@clang-format -style=google -i *.cpp *.h backend/*ing/*.c backend/*.h
+	@clang-format -n -style=google $(shell find . \( -name "*.cc" -or -name "*.h"  -or -name "*.c" -or -name "*.cpp" \))
