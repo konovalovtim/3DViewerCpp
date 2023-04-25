@@ -1,7 +1,7 @@
 #ifndef CPP4_3DVIEWER_V2_0_1_Model_H_
 #define CPP4_3DVIEWER_V2_0_1_Model_H_
 
-#include <float.h>
+#include <cfloat>
 
 #include <cmath>
 #include <cstring>
@@ -11,15 +11,16 @@
 #include <string>
 #include <thread>
 #include <utility>
+#include <vector>
 
-#include "model.h"
+//#include "model.h"
 
 namespace s21 {
 /**
  * @brief Класс предоставляющий работу объекта с программой
  */
 class Model {
- public:
+public:
   /**
    * @brief Enum для обозначения осей
    */
@@ -33,13 +34,13 @@ class Model {
    * @brief Функция получения единственного объекта(SingleTon)
    * @return shared указатель на объект
    */
-  static std::shared_ptr<Model> GetInstance();
+  //  static std::shared_ptr<Model> GetInstance();
 
   /**
    * @brief Функция открытия и обработки параметров объекта из заданного файла
    * @param line Путь до файла
    */
-  void OpenObject(std::string line);
+  //  void OpenObject(std::string line);
 
   /**
    * @brief Функция фиктивного перемещения
@@ -72,16 +73,16 @@ class Model {
    * @brief Функция проверяет объект на пустоту
    * @return true если пуст, false в обратном
    */
-  bool empty();
+    bool empty();
   /**
    * @brief Очистка векторов вершин и faсets.
    */
-  void clear();
+    void clear();
   /**
    * @brief Функция возвращает количество вершин и fasets
    * @return пара <размер вершин, размер faсets>
    */
-  std::pair<std::size_t, std::size_t> size();
+    std::pair<std::size_t, std::size_t> size();
 
   /**
    * @brief Функция подгатавливает данные фершин для OpenGL
@@ -94,27 +95,31 @@ class Model {
    * @param height высота экрана
    * @return вектор вершин правильной ориентации в пространстве
    */
-  const std::vector<double> &GetVertexes(double width = 1, double height = 1);
+    const std::vector<double> &GetVertexes(double width = 1, double height = 1);
   /**
    * @brief Функция возвращающая исходные faсets
    * @return const std::vector<std::vector<unsigned>>&
    */
-  const std::vector<std::vector<unsigned>> &GetFacets();
+    const std::vector<std::vector<unsigned>> &GetFacets();
 
-  Model(const Model &) = delete;  ///< Удаление конструктора копирования
-  Model(Model &&) = delete;  ///< Удаление конструктора переноса
+  //  Model(const Model &) = delete;  ///< Удаление конструктора копирования
+  //  Model(Model &&) = delete;  ///< Удаление конструктора переноса
+  //
+  //  Model &operator=(const Model &) = delete;  ///< Удаление оператора копирования
+  //  Model &operator=(Model &&) = delete;  ///< Удаление оператора переноса
+  Model() = default;
+  void ParsingVertex(std::string &line);
+  void ParsingFacet(std::string &line, std::size_t &position_old_vertexes);
+  void OpenObject(std::string line);
 
-  Model &operator=(const Model &) = delete;  ///< Удаление оператора копирования
-  Model &operator=(Model &&) = delete;  ///< Удаление оператора переноса
-
- private:
-  Model() = default;  ///< Дефолтный конструктор, приватный для SingleTon
-
-  PartObject model{};  ///< Все исходные данные об объекте
+//private:
+  std::vector<std::vector<unsigned>> facets_{};
+  std::vector<double> vertexes_{};
   std::vector<double>
       prepare_data{};  ///< Переменная хранящая вершины после вызова GetVertexes
-  double move_coordinate[3]{};  ///< Переменная для хранения перемешений
-                                ///< задаваемых во время работы с объектом
+
+  double move_coordinate_[3]{};  ///< Переменная для хранения перемещений
+                               ///< задаваемых во время работы с объектом
 
   /**
    * @brief Функция для обработки линии facet
@@ -123,14 +128,14 @@ class Model {
    * @param position_old_vertexes количество обработанных вершин для
    * синхронизации с относительными индексами в facet
    */
-  void ParsingFacet(std::vector<PartObject> &models, std::string &line,
-                    std::size_t &position_old_vertexes);
+  //  void ParsingFacet(std::vector<PartObject> &models, std::string &line,
+  //                    std::size_t &position_old_vertexes);
   /**
    * @brief Функция для обработки линии вершины
    * @param models объект для сохранения преобразованной строки
    * @param line строка для обработки
    */
-  void ParsingVertex(std::vector<PartObject> &models, std::string &line);
+  //  void ParsingVertex(std::vector<PartObject> &models, std::string &line);
   /**
    * @brief Функция поворота объекта
    * @details Функция перемешает объект в исходных данных

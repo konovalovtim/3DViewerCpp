@@ -8,7 +8,7 @@
 #include <QtOpenGLWidgets/QOpenGLWidget>
 #include <cmath>
 
-#include "backend/3d_viewer.h"
+#include "model/connect.h"
 
 #define GL_SILENCE_DEPRECATION
 
@@ -16,7 +16,8 @@ class glview : public QOpenGLWidget {
   Q_OBJECT
  public:
   QPoint mPos;
-  object_t object;
+//  object_t object;
+  s21::Model model;
   int scaleVal = 1;
   int prev_scale = 1;
   glview(QWidget *parent = nullptr);

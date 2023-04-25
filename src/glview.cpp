@@ -1,12 +1,10 @@
 #include "glview.h"
 
-#include "backend/3d_viewer.h"
+#include "model/connect.h"
 
 #define GL_SILENCE_DEPRECATION
 
-glview ::glview(QWidget* parent) : QOpenGLWidget{parent} {
-  object = {{0}, 0, 0, NULL, NULL};
-}
+glview ::glview(QWidget* parent) : QOpenGLWidget{parent} {}
 
 void glview ::initializeGL() {
   glEnable(GL_DEPTH_TEST);
@@ -30,14 +28,16 @@ void glview ::paintGL() {
     glLoadIdentity();
   }
   glEnableClientState(GL_VERTEX_ARRAY);
-
-  glVertexPointer(3, GL_DOUBLE, 0, object.vertexes);
+  glVertexPointer(3, GL_DOUBLE, 0,
+                    model.vertexes_.data());
   glClearColor(background_color[0], background_color[1], background_color[2],
                background_color[3]);  // цвет заднего фона
 
   glColor3d(edge_color[0], edge_color[1], edge_color[2]);
-  glDrawElements(GL_LINES, object.count_of_edges, GL_UNSIGNED_INT,
-                 object.edges);
+  for (auto& facet : model.facets_) {
+    glDrawElements(GL_LINE_LOOP, facet.size(), GL_UNSIGNED_INT,
+                   facet.data());
+  }
   glLineWidth(edge_width);  // толщина ребра
   if (edge_type) {          //тип ребра
     glLineStipple(4, 0x1111);
@@ -48,33 +48,58 @@ void glview ::paintGL() {
     if (vertex_type == 1) {
       glEnable(GL_POINT_SMOOTH);
       glColor3d(vertex_color[0], vertex_color[1], vertex_color[2]);
-      glDrawArrays(GL_POINTS, 0, object.count_of_vertexes / 3);
+      glDrawArrays(GL_POINTS, 0, model.vertexes_.size() / 3);
       glPointSize(vertex_width);  // толщина вершины
       glDisable(GL_POINT_SMOOTH);
     } else {
       glColor3d(vertex_color[0], vertex_color[1], vertex_color[2]);
-      glDrawArrays(GL_POINTS, 0, object.count_of_vertexes / 3);
+      glDrawArrays(GL_POINTS, 0, model.vertexes_.size() / 3);
       glPointSize(vertex_width);  // толщина вершины
     }
   }
   glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void glview::mousePressEvent(QMouseEvent* mo) { mPos = mo->pos(); }
 
-void glview::mouseMoveEvent(QMouseEvent* mo) {
-  rotation_object_t(&object, (0.001 / M_PI * (mo->pos().y() - mPos.y())) * -1,
-                    xAxis);
-  rotation_object_t(&object, (0.001 / M_PI * (mo->pos().x() - mPos.x())) * -1,
-                    yAxis);
+
+
+//void glview::mousePressEvent(QMouseEvent* mo) { mPos = mo->pos(); }
+
+//void glview::mouseMoveEvent(QMouseEvent* mo) {
+//  rotation_object_t(&object, (0.001 / M_PI * (mo->pos().y() - mPos.y())) * -1,
+//                    xAxis);
+//  rotation_object_t(&object, (0.001 / M_PI * (mo->pos().x() - mPos.x())) * -1,
+//                    yAxis);
+//  update();
+//}
+
+//void glview::wheelEvent(QWheelEvent* event) {
+//  if (event->angleDelta().y() > 0) {
+//    zoom_object_t(&object, 0.9);
+//  } else {
+//    zoom_object_t(&object, 1.1);
+//  }
+//  update();
+//}
+
+void glview::mousePressEvent(QMouseEvent* mouse) {
+  mPos = mouse->pos();
+}
+
+void glview::mouseMoveEvent(QMouseEvent* mouse) {
+  double val_x = 0.013 / M_PI * (mouse->pos().y() - mPos.y());
+  model.Rotate(val_x, s21::Model::xAxis);
+  double val_y = 0.013 / M_PI * (mouse->pos().x() - mPos.x());
+  model.Rotate(val_y, s21::Model::yAxis);
+  mPos = mouse->pos();
   update();
 }
 
-void glview::wheelEvent(QWheelEvent* event) {
-  if (event->angleDelta().y() > 0) {
-    zoom_object_t(&object, 0.9);
+void glview::wheelEvent(QWheelEvent* mouse) {
+  if (mouse->angleDelta().y() > 0) {
+    model.Scale(103);
   } else {
-    zoom_object_t(&object, 1.1);
+    model.Scale(97);
   }
   update();
 }
