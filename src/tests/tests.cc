@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include "../model/object_model.h"
 
 struct CubeObj {

@@ -61,7 +61,7 @@ tests: clean
 gcov_report: tests
 	@echo "Make report..."
 	@mkdir -p $(REPORT)
-	@lcov -t ./test -o $(REPORT)/test.info --no-external -c -d Facade
+	@lcov -t ./test -o $(REPORT)/test.info --no-external -c -d model
 	@genhtml -o $(REPORT)/report_html $(REPORT)/test.info
 	@echo "Report is complete"
 	@$(OPEN) $(REPORT)/report_html/index.html
@@ -73,7 +73,6 @@ dist: clean
 
 dvi:
 	@doxygen Doxyfile
-	@cp -r images $(DOCUMENTATION)/html
 	@$(OPEN) $(DOCUMENTATION)/html/index.html
 
 clean:
@@ -86,4 +85,5 @@ rebuild: clean all
 # ========================================== STYLE =================================================
 
 style:
+	@clang-format -i -style=google $(shell find . \( -name "*.cc" -or -name "*.h"  -or -name "*.c" -or -name "*.cpp" \))
 	@clang-format -n -style=google $(shell find . \( -name "*.cc" -or -name "*.h"  -or -name "*.c" -or -name "*.cpp" \))

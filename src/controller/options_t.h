@@ -8,11 +8,10 @@ namespace s21 {
  * @brief Класс для отслеживания и обновления настроек через QSettings
  */
 struct Options_t {
-  Options_t();  ///<Дефолтный конструктор
+  Options_t();  ///< Дефолтный конструктор
 
-  QSettings settings{"2DM",
-                     "3DViewer_v2"};  ///< Экземпляр класса QSettings для
-                                       ///< сохранения и загрузки настроек
+  QSettings settings{"2DM", "3DViewer_v2"};  ///< Экземпляр класса QSettings для
+                                             ///< сохранения и загрузки настроек
 
   int projection_type{},        ///< Тип проекции
       edge_type{},              ///< Тип ребра

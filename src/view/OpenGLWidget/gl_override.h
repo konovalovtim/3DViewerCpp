@@ -9,8 +9,8 @@
 #include <QWheelEvent>
 #include <cmath>
 
-#include "../../model/object_model.h"
 #include "../../controller/options_t.h"
+#include "../../model/object_model.h"
 
 /**
  * @brief Класс наследуемый от QOpenGLWidget для переопределения функций по

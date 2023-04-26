@@ -32,17 +32,16 @@ const std::vector<double>& ObjectModel::GetVertexes(double width,
   prepare_data.clear();
   std::copy(model.vertexes.begin(), model.vertexes.end(),
             std::back_inserter(prepare_data));
-          for (std::size_t index = 0; index < prepare_data.size();
-               index += 3) {
-            prepare_data[index + xAxis] += move_coordinate[xAxis];
-            prepare_data[index + yAxis] += move_coordinate[yAxis];
-            prepare_data[index + zAxis] += move_coordinate[zAxis];
-            if (state_scaling == 1) {
-              prepare_data[index + xAxis] *= scale;
-            } else if (state_scaling == 2) {
-              prepare_data[index + yAxis] *= scale;
-            }
-          }
+  for (std::size_t index = 0; index < prepare_data.size(); index += 3) {
+    prepare_data[index + xAxis] += move_coordinate[xAxis];
+    prepare_data[index + yAxis] += move_coordinate[yAxis];
+    prepare_data[index + zAxis] += move_coordinate[zAxis];
+    if (state_scaling == 1) {
+      prepare_data[index + xAxis] *= scale;
+    } else if (state_scaling == 2) {
+      prepare_data[index + yAxis] *= scale;
+    }
+  }
   return prepare_data;
 }
 

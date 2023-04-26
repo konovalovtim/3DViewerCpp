@@ -14,7 +14,7 @@ void QOpenGLWidgetOverride::initializeGL() {
 void QOpenGLWidgetOverride::paintGL() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glOrtho(-2.0, 2.0, -2.0, 2.0, -5, 5);
-  //Блок отвечает за проекцию
+  // Блок отвечает за проекцию
   if (settings.projection_type) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -44,7 +44,7 @@ void QOpenGLWidgetOverride::paintGL() {
                    facet.data());
   }
   glLineWidth(settings.edge_width);  // толщина ребра
-  if (settings.edge_type) {          //тип ребра
+  if (settings.edge_type) {          // тип ребра
     glLineStipple(4, 0x1111);
   } else {
     glLineStipple(4, 0xFFFF);
