@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Controller</class>
- <widget class="QMainWindow" name="MainWindow">
+ <widget class="QMainWindow" name="Controller">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1155</width>
-    <height>608</height>
+    <width>1115</width>
+    <height>873</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,25 +19,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
-     <widget class="QLabel" name="label_path">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>15</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>No path</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
     <item>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
@@ -68,6 +49,25 @@
           </property>
           <property name="text">
            <string>Open file</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_path">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>No path</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>

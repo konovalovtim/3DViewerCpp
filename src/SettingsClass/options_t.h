@@ -10,9 +10,9 @@ namespace s21 {
 struct Options_t {
   Options_t();  ///<Дефолтный конструктор
 
-  QSettings settings{"GenderParty",
+  QSettings settings{"2DM",
                      "3DViewer_v2.0"};  ///< Экземпляр класса QSettings для
-                                        ///< сохранения и загрузки настроек
+                                       ///< сохранения и загрузки настроек
 
   int projection_type{},        ///< Тип проекции
       edge_type{},              ///< Тип ребра
