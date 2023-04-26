@@ -101,23 +101,21 @@ class Model {
    */
   const std::vector<std::vector<unsigned>> &GetFacets();
 
-  Model(const Model &) =
-      delete;  ///< Удаление конструктора копирования
+  Model(const Model &) = delete;  ///< Удаление конструктора копирования
   Model(Model &&) = delete;  ///< Удаление конструктора переноса
 
-  Model &operator=(const Model &) =
-      delete;  ///< Удаление оператора копирования
-  Model &operator=(Model &&) =
-      delete;  ///< Удаление оператора переноса
+  Model &operator=(const Model &) = delete;  ///< Удаление оператора копирования
+  Model &operator=(Model &&) = delete;  ///< Удаление оператора переноса
 
  private:
   Model() = default;  ///< Дефолтный конструктор, приватный для SingleTon
 
   VertexesAndFacets model{};  ///< Все исходные данные об объекте
   std::vector<double>
-      vertexesAfterGetVertexes{};  ///< Переменная хранящая вершины после вызова GetVertexes
+      vertexesAfterGetVertexes{};  ///< Переменная хранящая вершины после вызова
+                                   ///< GetVertexes
   double axisMovement[3]{};  ///< Переменная для хранения перемещений
-                                ///< задаваемых во время работы с объектом
+                             ///< задаваемых во время работы с объектом
 
   /**
    * @brief Функция для обработки линии facet

@@ -12,7 +12,7 @@ void QOpenGLWidgetOverride::initializeGL() {
 }
 
 void QOpenGLWidgetOverride::paintGL() {
-//  update();
+  //  update();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glOrtho(-2.0, 2.0, -2.0, 2.0, -5, 5);
   // Блок отвечает за проекцию

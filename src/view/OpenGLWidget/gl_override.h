@@ -20,9 +20,8 @@ class QOpenGLWidgetOverride : public QOpenGLWidget {
   Q_OBJECT
  public:
   QPoint mPos{};  ///< Последняя позиция мышки
-  s21::Model &object =
-      *s21::Model::GetInstance();  ///< Получение ссылки на SingleTon
-                                         ///< объект
+  s21::Model &object = *s21::Model::GetInstance();  ///< Получение ссылки на
+                                                    ///< SingleTon объект
 
   QOpenGLWidgetOverride(QWidget *parent = nullptr);  ///< Дефолтный конструктор
 

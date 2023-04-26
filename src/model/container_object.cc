@@ -6,9 +6,7 @@ std::pair<std::size_t, std::size_t> Model::size() {
   return {model.vertexes.size(), model.facets.size()};
 }
 
-bool Model::empty() {
-  return model.vertexes.empty() && model.facets.empty();
-}
+bool Model::empty() { return model.vertexes.empty() && model.facets.empty(); }
 
 void Model::clear() {
   model.facets.clear();
@@ -17,8 +15,7 @@ void Model::clear() {
   vertexesAfterGetVertexes.clear();
 }
 
-const std::vector<double>& Model::GetVertexes(double width,
-                                                    double height) {
+const std::vector<double>& Model::GetVertexes(double width, double height) {
   char state_scaling{};
   double scale{};
   if (width > height) {
@@ -32,7 +29,8 @@ const std::vector<double>& Model::GetVertexes(double width,
   vertexesAfterGetVertexes.clear();
   std::copy(model.vertexes.begin(), model.vertexes.end(),
             std::back_inserter(vertexesAfterGetVertexes));
-  for (std::size_t index = 0; index < vertexesAfterGetVertexes.size(); index += 3) {
+  for (std::size_t index = 0; index < vertexesAfterGetVertexes.size();
+       index += 3) {
     vertexesAfterGetVertexes[index + xAxis] += axisMovement[xAxis];
     vertexesAfterGetVertexes[index + yAxis] += axisMovement[yAxis];
     vertexesAfterGetVertexes[index + zAxis] += axisMovement[zAxis];
