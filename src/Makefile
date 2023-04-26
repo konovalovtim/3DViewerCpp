@@ -53,9 +53,9 @@ uninstall:
 
 tests: clean
 	@echo "Tests start..."
-	$(CXX) $(shell find Facade tests -name "*.cc") $(CXX_FLAGS) -o test
+	$(CXX) $(shell find model tests -name "*.cc") $(CXX_FLAGS) -o test
 	@./test
-	@-mv *.gc* Facade
+	@-mv *.gc* model
 	@echo "Tests done"
 
 gcov_report: tests
@@ -78,7 +78,7 @@ dvi:
 
 clean:
 	@echo "Cleaning..."
-	@rm -rf $(REPORT) Facade/*.gc* test $(BUILD)* $(DIST) logs $(DOCUMENTATION) $(APP) *.gc* Facade/*.gc*
+	@rm -rf $(REPORT) model/*.gc* test $(BUILD)* $(DIST) logs $(DOCUMENTATION) $(APP) *.gc* model/*.gc*
 	@echo "Clean is done"
 
 rebuild: clean all

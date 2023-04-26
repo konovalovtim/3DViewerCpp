@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
-
-#include "../Facade/Mediator/object_model.h"
+#include "../model/object_model.h"
 
 struct CubeObj {
   std::vector<double> vertexesData{0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0, 2.0,

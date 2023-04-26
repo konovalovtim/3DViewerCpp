@@ -18,29 +18,25 @@ add_subdirectory(GIFCreation)
 add_executable(3DViewer
         main.cc
 
-        QClass/controller.cc
-        QClass/OpenGLWidget/gl_override.cc
+        model/affine_object.cc
+        model/container_object.cc
+        model/parsing_object.cc
+        model/normalization.cc
+        model/singleton.cc
+        model/object_model.h
+        model/part_object.h
 
-        QClass/controller.h
-        QClass/OpenGLWidget/gl_override.h
+        controller/controller.cc
+        controller/controller.h
+        controller/options_t.cc
+        controller/options_t.h
 
-        Facade/Affine/affine_object.cc
-        Facade/Container/container_object.cc
-        Facade/FileReader/parsing_object.cc
-        Facade/NormalizationParameters/normalization.cc
-        Facade/Singleton/singleton.cc
-
-        Facade/Mediator/object_model.h
-        Facade/part_object.h
-
-        SettingsClass/options.cc
-        SettingsClass/options_t.cc
-
-        SettingsClass/options.h
-        SettingsClass/options_t.h
-
-        SettingsClass/options.ui
-        QClass/view.ui
+        view/OpenGLWidget/gl_override.cc
+        view/OpenGLWidget/gl_override.h
+        view/options.cc
+        view/options.h
+        view/options.ui
+        view/view.ui
 
         icon/icons.qrc)
 
