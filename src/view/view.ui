@@ -21,16 +21,6 @@
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QOpenGLWidgetOverride" name="widget" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="2">
        <layout class="QVBoxLayout" name="verticalLayout">
         <property name="sizeConstraint">
@@ -449,6 +439,16 @@
         </item>
        </layout>
       </item>
+      <item row="0" column="0">
+       <widget class="QOpenGLWidgetOverride" name="widget" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>
@@ -463,7 +463,7 @@
   <customwidget>
    <class>QOpenGLWidgetOverride</class>
    <extends>QWidget</extends>
-   <header location="global">QClass/OpenGLWidget/gl_override.h</header>
+   <header>view/OpenGLWidget/gl_override.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
