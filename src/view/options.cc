@@ -72,6 +72,7 @@ void options::putTheValues() {
 void options::on_button_apply_clicked() {
   settings_data.SaveSettings();
   QWidget::close();
+
 }
 
 void options::on_button_cancel_clicked() { QWidget::close(); }

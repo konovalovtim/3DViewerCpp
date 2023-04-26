@@ -2,10 +2,10 @@
 
 using namespace s21;
 
-void ObjectModel::ParsingVertex(std::vector<PartObject> &models,
+void Model::ParsingVertex(std::vector<VertexesAndFacets> &models,
                                 std::string &line) {
   if (models.back().facets.size()) {
-    models.push_back(PartObject());
+    models.push_back(VertexesAndFacets());
   }
   int count_vertex{};
   char *token = std::strtok(line.data() + 1, " ");
@@ -22,7 +22,7 @@ void ObjectModel::ParsingVertex(std::vector<PartObject> &models,
   }
 }
 
-void ObjectModel::ParsingFacet(std::vector<PartObject> &models,
+void Model::ParsingFacet(std::vector<VertexesAndFacets> &models,
                                std::string &line,
                                std::size_t &position_old_vertexes) {
   if (models.empty() || models.back().vertexes.empty()) {
@@ -48,9 +48,9 @@ void ObjectModel::ParsingFacet(std::vector<PartObject> &models,
   models.back().facets.push_back(face);
 }
 
-void ObjectModel::OpenObject(std::string line) {
+void Model::OpenObject(std::string line) {
   std::ifstream file_in(line);
-  std::vector<PartObject> models = {PartObject()};
+  std::vector<VertexesAndFacets> models = {VertexesAndFacets()};
   std::size_t position_old_vertexes{};
   while (std::getline(file_in, line)) {
     if (line.length() < 2) {

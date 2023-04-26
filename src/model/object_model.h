@@ -1,5 +1,5 @@
-#ifndef CPP4_3DVIEWER_V2_0_1_OBJECTMODEL_H_
-#define CPP4_3DVIEWER_V2_0_1_OBJECTMODEL_H_
+#ifndef CPP4_3DVIEWER_V2_0_1_Model_H_
+#define CPP4_3DVIEWER_V2_0_1_Model_H_
 
 #include <float.h>
 
@@ -18,7 +18,7 @@ namespace s21 {
 /**
  * @brief Класс предоставляющий работу объекта с программой
  */
-class ObjectModel {
+class Model {
  public:
   /**
    * @brief Enum для обозначения осей
@@ -33,7 +33,7 @@ class ObjectModel {
    * @brief Функция получения единственного объекта(SingleTon)
    * @return shared указатель на объект
    */
-  static std::shared_ptr<ObjectModel> GetInstance();
+  static std::shared_ptr<Model> GetInstance();
 
   /**
    * @brief Функция открытия и обработки параметров объекта из заданного файла
@@ -47,13 +47,13 @@ class ObjectModel {
    * @param coordinate
    * @param axis
    */
-  void Move(double coordinate, ObjectModel::AxisPoints axis);
+  void Move(double coordinate, Model::AxisPoints axis);
   /**
    * @brief Поворот всех точек относительно заданной оси
    * @param angle число для поворота
    * @param axis заданная ось
    */
-  void Rotate(double angle, ObjectModel::Axis axis);
+  void Rotate(double angle, Model::Axis axis);
   /**
    * @brief Умножить каждую ось каждой точки на заданное число
    * @param coordinate число для умножения
@@ -101,22 +101,22 @@ class ObjectModel {
    */
   const std::vector<std::vector<unsigned>> &GetFacets();
 
-  ObjectModel(const ObjectModel &) =
+  Model(const Model &) =
       delete;  ///< Удаление конструктора копирования
-  ObjectModel(ObjectModel &&) = delete;  ///< Удаление конструктора переноса
+  Model(Model &&) = delete;  ///< Удаление конструктора переноса
 
-  ObjectModel &operator=(const ObjectModel &) =
+  Model &operator=(const Model &) =
       delete;  ///< Удаление оператора копирования
-  ObjectModel &operator=(ObjectModel &&) =
+  Model &operator=(Model &&) =
       delete;  ///< Удаление оператора переноса
 
  private:
-  ObjectModel() = default;  ///< Дефолтный конструктор, приватный для SingleTon
+  Model() = default;  ///< Дефолтный конструктор, приватный для SingleTon
 
-  PartObject model{};  ///< Все исходные данные об объекте
+  VertexesAndFacets model{};  ///< Все исходные данные об объекте
   std::vector<double>
-      prepare_data{};  ///< Переменная хранящая вершины после вызова GetVertexes
-  double move_coordinate[3]{};  ///< Переменная для хранения перемешений
+      vertexesAfterGetVertexes{};  ///< Переменная хранящая вершины после вызова GetVertexes
+  double axisMovement[3]{};  ///< Переменная для хранения перемещений
                                 ///< задаваемых во время работы с объектом
 
   /**
@@ -126,14 +126,14 @@ class ObjectModel {
    * @param position_old_vertexes количество обработанных вершин для
    * синхронизации с относительными индексами в facet
    */
-  void ParsingFacet(std::vector<PartObject> &models, std::string &line,
+  void ParsingFacet(std::vector<VertexesAndFacets> &models, std::string &line,
                     std::size_t &position_old_vertexes);
   /**
    * @brief Функция для обработки линии вершины
    * @param models объект для сохранения преобразованной строки
    * @param line строка для обработки
    */
-  void ParsingVertex(std::vector<PartObject> &models, std::string &line);
+  void ParsingVertex(std::vector<VertexesAndFacets> &models, std::string &line);
   /**
    * @brief Функция поворота объекта
    * @details Функция перемешает объект в исходных данных
@@ -141,9 +141,9 @@ class ObjectModel {
    * @param coordinate количество перемещения объекта
    * @param axis выбранная координата для перемещения
    */
-  void MoveReal(double coordinate, ObjectModel::AxisPoints axis);
+  void MoveReal(double coordinate, Model::AxisPoints axis);
 };
 
 }  // namespace s21
 
-#endif  // CPP4_3DVIEWER_V2_0_1_OBJECTMODEL_H_
+#endif  // CPP4_3DVIEWER_V2_0_1_Model_H_

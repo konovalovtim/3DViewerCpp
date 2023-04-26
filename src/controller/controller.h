@@ -18,7 +18,7 @@ QT_END_NAMESPACE
 
 namespace s21 {
 /**
- * @brief Класс по работе между ObjectModel и UI
+ * @brief Класс по работе между Model и UI
  */
 class Controller : public QMainWindow {
   Q_OBJECT

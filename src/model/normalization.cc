@@ -2,7 +2,7 @@
 
 using namespace s21;
 
-void ObjectModel::NormalizationAndCentralize() {
+void Model::NormalizationAndCentralize() {
   if (model.vertexes.empty()) {
     throw std::logic_error("Can't relocate. Haven't exist model");
   }
@@ -30,11 +30,11 @@ void ObjectModel::NormalizationAndCentralize() {
   MoveReal(-(positionAxis[zAxis] + deltaAxis[zAxis] / 2), zAxis);
   Scale(100 / std::max(std::max(deltaAxis[xAxis], deltaAxis[yAxis]),
                        deltaAxis[zAxis]));
-  move_coordinate[xAxis] = move_coordinate[yAxis] = move_coordinate[zAxis] =
+  axisMovement[xAxis] = axisMovement[yAxis] = axisMovement[zAxis] =
       0.f;
 }
 
-void ObjectModel::CentralizeAfterMove() {
-  move_coordinate[xAxis] = move_coordinate[yAxis] = move_coordinate[zAxis] =
+void Model::CentralizeAfterMove() {
+  axisMovement[xAxis] = axisMovement[yAxis] = axisMovement[zAxis] =
       0.f;
 }

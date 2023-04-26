@@ -7,7 +7,7 @@ namespace s21 {
 /**
  * @brief Класс для хранения данных об Объекте
  */
-struct PartObject {
+struct VertexesAndFacets {
   std::vector<std::vector<unsigned>> facets{};  ///< Вектор фигур
   std::vector<double> vertexes{};               ///< Вектор вершин
 };

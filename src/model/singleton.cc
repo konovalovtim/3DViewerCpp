@@ -2,7 +2,7 @@
 
 using namespace s21;
 
-std::shared_ptr<ObjectModel> ObjectModel::GetInstance() {
-  static std::shared_ptr<ObjectModel> instance(new ObjectModel());
+std::shared_ptr<Model> Model::GetInstance() {
+  static std::shared_ptr<Model> instance(new Model());
   return instance;
 }

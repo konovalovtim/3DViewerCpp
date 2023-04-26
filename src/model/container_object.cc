@@ -2,22 +2,22 @@
 
 using namespace s21;
 
-std::pair<std::size_t, std::size_t> ObjectModel::size() {
+std::pair<std::size_t, std::size_t> Model::size() {
   return {model.vertexes.size(), model.facets.size()};
 }
 
-bool ObjectModel::empty() {
+bool Model::empty() {
   return model.vertexes.empty() && model.facets.empty();
 }
 
-void ObjectModel::clear() {
+void Model::clear() {
   model.facets.clear();
   model.vertexes.clear();
   CentralizeAfterMove();
-  prepare_data.clear();
+  vertexesAfterGetVertexes.clear();
 }
 
-const std::vector<double>& ObjectModel::GetVertexes(double width,
+const std::vector<double>& Model::GetVertexes(double width,
                                                     double height) {
   char state_scaling{};
   double scale{};
@@ -29,22 +29,22 @@ const std::vector<double>& ObjectModel::GetVertexes(double width,
     scale = width / height;
   }
 
-  prepare_data.clear();
+  vertexesAfterGetVertexes.clear();
   std::copy(model.vertexes.begin(), model.vertexes.end(),
-            std::back_inserter(prepare_data));
-  for (std::size_t index = 0; index < prepare_data.size(); index += 3) {
-    prepare_data[index + xAxis] += move_coordinate[xAxis];
-    prepare_data[index + yAxis] += move_coordinate[yAxis];
-    prepare_data[index + zAxis] += move_coordinate[zAxis];
+            std::back_inserter(vertexesAfterGetVertexes));
+  for (std::size_t index = 0; index < vertexesAfterGetVertexes.size(); index += 3) {
+    vertexesAfterGetVertexes[index + xAxis] += axisMovement[xAxis];
+    vertexesAfterGetVertexes[index + yAxis] += axisMovement[yAxis];
+    vertexesAfterGetVertexes[index + zAxis] += axisMovement[zAxis];
     if (state_scaling == 1) {
-      prepare_data[index + xAxis] *= scale;
+      vertexesAfterGetVertexes[index + xAxis] *= scale;
     } else if (state_scaling == 2) {
-      prepare_data[index + yAxis] *= scale;
+      vertexesAfterGetVertexes[index + yAxis] *= scale;
     }
   }
-  return prepare_data;
+  return vertexesAfterGetVertexes;
 }
 
-const std::vector<std::vector<unsigned>>& ObjectModel::GetFacets() {
+const std::vector<std::vector<unsigned>>& Model::GetFacets() {
   return model.facets;
 }

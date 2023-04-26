@@ -30,7 +30,7 @@ void Controller::on_button_open_path_clicked() {
     return;
   }
   ui->label_path->setText(path);
-  ObjectModel &model_data = *ObjectModel::GetInstance();
+  Model &model_data = *Model::GetInstance();
   model_data.clear();
 
   try {
@@ -94,27 +94,27 @@ void Controller::on_button_setting_clicked() {
 }
 
 void Controller::on_button_moving_clicked() {
-  ObjectModel::GetInstance()->Move(ui->moving_x->value(), ObjectModel::xAxis);
-  ObjectModel::GetInstance()->Move(ui->moving_y->value(), ObjectModel::yAxis);
-  ObjectModel::GetInstance()->Move(ui->moving_z->value(), ObjectModel::zAxis);
+  Model::GetInstance()->Move(ui->moving_x->value(), Model::xAxis);
+  Model::GetInstance()->Move(ui->moving_y->value(), Model::yAxis);
+  Model::GetInstance()->Move(ui->moving_z->value(), Model::zAxis);
   ui->widget->update();
 }
 
 void Controller::on_button_rotate_clicked() {
-  ObjectModel::GetInstance()->Rotate(ui->rotate_x->value(), ObjectModel::xAxis);
-  ObjectModel::GetInstance()->Rotate(ui->rotate_y->value(), ObjectModel::yAxis);
-  ObjectModel::GetInstance()->Rotate(ui->rotate_z->value(), ObjectModel::zAxis);
+  Model::GetInstance()->Rotate(ui->rotate_x->value(), Model::xAxis);
+  Model::GetInstance()->Rotate(ui->rotate_y->value(), Model::yAxis);
+  Model::GetInstance()->Rotate(ui->rotate_z->value(), Model::zAxis);
   ui->widget->update();
 }
 
 void Controller::on_button_scaling_clicked() {
-  ObjectModel::GetInstance()->Scale(ui->scaling->value());
+  Model::GetInstance()->Scale(ui->scaling->value());
   ui->widget->update();
 }
 
 void Controller::on_button_reset_position_clicked() {
   try {
-    ObjectModel::GetInstance()->CentralizeAfterMove();
+    Model::GetInstance()->CentralizeAfterMove();
   } catch (std::exception &e) {
     QMessageBox::warning(this, "Error", e.what());
   }
