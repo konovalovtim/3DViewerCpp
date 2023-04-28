@@ -51,28 +51,17 @@ void Model::Memento::take(Model &other) {
   Memento_axisMovement[xAxis] = other.axisMovement[xAxis];
   Memento_axisMovement[yAxis] = other.axisMovement[yAxis];
   Memento_axisMovement[zAxis] = other.axisMovement[zAxis];
-  for (int i = 0; i < other.vertexesAfterGetVertexes.size(); i++) {
-    Memento_vertexesAfterGetVertexes.push_back(
-        other.vertexesAfterGetVertexes[i]);
-  }
   for (int i = 0; i < other.model.vertexes.size(); i++) {
     Memento_model.vertexes.push_back(
         other.model.vertexes[i]);
   }
-//  for (auto &model_parse : other.model) {
-//    model.vertexes.insert(model.vertexes.end(), model_parse.vertexes.begin(),
-//                          model_parse.vertexes.end());
-//    model.facets.insert(model.facets.end(), model_parse.facets.begin(),
-//                        model_parse.facets.end());
-//  }
-
-//  std::copy(other.model.vertexes.begin(), other.model.vertexes.end(),
-//            Memento_model.vertexes.begin());
-//  std::copy(other.model.facets.begin(), other.model.facets.end(),
-//            Memento_model.facets.begin());
-  //  for (int i = 0; i < other.model.vertexes.size(); i++) {
-  //    Memento_model.vertexes.push_back(other.model.vertexes[i]);
-  //  }
+  for (int i = 0; i < other.model.facets.size(); i++) {
+      std::vector<unsigned> vect{};
+      for (int j = 0; j < other.model.facets[i].size(); j++) {
+          vect.push_back(other.model.facets[i][j]);
+      }
+      Memento_model.facets.push_back(vect);
+  }
 }
 
 void Model::Memento::recovery(Model &other) {
@@ -80,14 +69,15 @@ void Model::Memento::recovery(Model &other) {
   other.axisMovement[xAxis] = Memento_axisMovement[xAxis];
   other.axisMovement[yAxis] = Memento_axisMovement[yAxis];
   other.axisMovement[zAxis] = Memento_axisMovement[zAxis];
-//  for (int i = 0; i < other.vertexesAfterGetVertexes.size(); i++) {
-//    Memento_vertexesAfterGetVertexes.push_back(
-//        other.vertexesAfterGetVertexes[i]);
-//  }
-  std::copy(Memento_vertexesAfterGetVertexes.begin(), Memento_vertexesAfterGetVertexes.end(),
-            other.vertexesAfterGetVertexes.begin());
-  std::copy(Memento_model.vertexes.begin(), Memento_model.vertexes.end(),
-            other.model.vertexes.begin());
-  std::copy(Memento_model.facets.begin(), Memento_model.facets.end(),
-            other.model.facets.begin());
+  for (int i = 0; i < Memento_model.vertexes.size(); i++) {
+    other.model.vertexes.push_back(
+        Memento_model.vertexes[i]);
+  }
+  for (int i = 0; i < Memento_model.facets.size(); i++) {
+      std::vector<unsigned> vect{};
+      for (int j = 0; j < Memento_model.facets[i].size(); j++) {
+          vect.push_back(Memento_model.facets[i][j]);
+      }
+      other.model.facets.push_back(vect);
+  }
 }

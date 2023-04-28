@@ -36,7 +36,7 @@ void Controller::on_button_open_path_clicked() {
   try {
     model_data.OpenObject(path.toStdString());
     model_data.NormalizationAndCentralize();
-//    memento.take(model_data);
+    memento.take(model_data);
   } catch (std::exception &e) {
     QMessageBox::warning(this, "Error", e.what());
   }
@@ -114,17 +114,12 @@ void Controller::on_button_scaling_clicked() {
 }
 
 void Controller::on_button_reset_position_clicked() {
-    QString path = ui->label_path->text();
-//  memento.recovery(model_data);
-  try {
-    Model &model_data = *Model::GetInstance();
-    model_data.clear();
-    model_data.OpenObject(path.toStdString());
-    model_data.NormalizationAndCentralize();
-  } catch (std::exception &e) {
+    try {
+        memento.recovery(*Model::GetInstance());
+    } catch (std::exception &e) {
     QMessageBox::warning(this, "Error", e.what());
-  }
-  ui->widget->update();
+    }
+    ui->widget->update();
 }
 
 void Controller::on_dial_sliderMoved(int position)

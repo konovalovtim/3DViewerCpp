@@ -109,13 +109,25 @@ class Model {
       delete;  ///< Удаление оператора копирования
   Model &operator=(Model &&) =
       delete;  ///< Удаление оператора переноса
-
+  /**
+   * @brief Класс Хранитель (memento) Не нарушая инкапсуляции,
+   * фиксирует и выносит за пределы объекта его внутреннее состояние,
+   * так чтобы позднее можно было восстановить в нем объект.
+   * @return const std::vector<std::vector<unsigned>>&
+   */
   class Memento {
   public:
     Memento () = default;
-//    Memento(const Model &other);
-
+    /**
+     * @brief Функция для взятия на хранение состояния класса Model.
+     * @param объект из которого хотим сохранить текущее состояние
+     */
     void take(Model &other);
+    /**
+     * @brief Функция для востановления состояния класса Model
+     * на момент взятия(вызова метода take).
+     * @param объект состояние которого хотим откатить до состояние вызова метода take.
+     */
     void recovery(Model &other);
   private:
     VertexesAndFacets Memento_model{};
