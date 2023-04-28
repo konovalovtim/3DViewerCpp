@@ -56,6 +56,9 @@ class Controller : public QMainWindow {
   void on_button_scaling_clicked();
 
   void on_button_reset_position_clicked();
+
+  void on_dial_sliderMoved(int position);
+  void on_dial_valueChanged(int value);
 };
 
 }  // namespace s21

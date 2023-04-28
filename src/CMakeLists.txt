@@ -23,7 +23,7 @@ add_executable(3DViewer
         model/parsing_object.cc
         model/normalization.cc
         model/singleton.cc
-        model/object_model.h
+        model/model.h
         model/part_object.h
 
         controller/controller.cc

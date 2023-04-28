@@ -10,7 +10,7 @@
 #include <cmath>
 
 #include "../../controller/options_t.h"
-#include "../../model/object_model.h"
+#include "../../model/model.h"
 
 /**
  * @brief Класс наследуемый от QOpenGLWidget для переопределения функций по

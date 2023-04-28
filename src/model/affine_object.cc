@@ -1,4 +1,4 @@
-#include "object_model.h"
+#include "model.h"
 
 using namespace s21;
 

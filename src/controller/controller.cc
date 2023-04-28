@@ -120,3 +120,14 @@ void Controller::on_button_reset_position_clicked() {
   }
   ui->widget->update();
 }
+
+void Controller::on_dial_sliderMoved(int position)
+{
+    ui->scaling->setValue(position);
+}
+
+void Controller::on_dial_valueChanged(int value)
+{
+    ui->scaling->setValue(value);
+}
+

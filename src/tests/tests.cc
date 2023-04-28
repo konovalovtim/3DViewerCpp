@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../model/object_model.h"
+#include "../model/model.h"
 
 struct CubeObj {
   std::vector<double> vertexesData{0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0, 2.0,
