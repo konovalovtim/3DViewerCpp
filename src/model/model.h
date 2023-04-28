@@ -84,10 +84,10 @@ class Model {
   std::pair<std::size_t, std::size_t> size();
 
   /**
-   * @brief Функция подгатавливает данные фершин для OpenGL
+   * @brief Функция подготавливает данные вершин для OpenGL
    * @details Функция берет исходные данные вершин, изменяет все вершины под
-   * Move так как он переносить только фиктивно и маштабирует под размер экрана.
-   * Маштабирование сделано из-за виджета OpenGL который адаптируется под размер
+   * Move так как он переносить только фиктивно и масштабирует под размер экрана.
+   * Масштабирование сделано из-за виджета OpenGL, который адаптируется под размер
    * экрана только один раз. Функция занимает сложность прохождения по всему
    * массиву вершин.
    * @param width ширина экрана
@@ -96,7 +96,7 @@ class Model {
    */
   const std::vector<double> &GetVertexes(double width = 1, double height = 1);
   /**
-   * @brief Функция возвращающая исходные faсets
+   * @brief Функция геттер faсets
    * @return const std::vector<std::vector<unsigned>>&
    */
   const std::vector<std::vector<unsigned>> &GetFacets();
@@ -109,6 +109,20 @@ class Model {
       delete;  ///< Удаление оператора копирования
   Model &operator=(Model &&) =
       delete;  ///< Удаление оператора переноса
+
+  class Memento {
+  public:
+    Memento () = default;
+//    Memento(const Model &other);
+
+    void take(Model &other);
+    void recovery(Model &other);
+  private:
+    VertexesAndFacets Memento_model{};
+    std::vector<double>
+        Memento_vertexesAfterGetVertexes{};
+    double Memento_axisMovement[3]{};
+  };
 
  private:
   Model() = default;  ///< Дефолтный конструктор, приватный для SingleTon

@@ -33,6 +33,7 @@ class Controller : public QMainWindow {
  private:
   QTimer *timer_;  ///< Указатель на таймер для Gif
   QGifImage *gif_;  /// Указатель на класс QGifImage для создания Gif
+  Model::Memento memento;
 
  private slots:
   void on_actionClose_triggered();
