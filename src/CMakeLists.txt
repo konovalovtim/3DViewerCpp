@@ -18,13 +18,12 @@ add_subdirectory(GIFCreation)
 add_executable(3DViewer
         main.cc
 
-        model/affine_object.cc
-        model/container_object.cc
+        model/affine_normalize.cc
+        model/model.cc
         model/parsing_object.cc
-        model/normalization.cc
         model/singleton.cc
         model/model.h
-        model/part_object.h
+        model/VertexesAndFacets.h
 
         controller/controller.cc
         controller/controller.h

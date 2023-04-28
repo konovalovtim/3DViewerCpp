@@ -12,7 +12,7 @@
 #include <thread>
 #include <utility>
 
-#include "part_object.h"
+#include "VertexesAndFacets.h"
 
 namespace s21 {
 /**
