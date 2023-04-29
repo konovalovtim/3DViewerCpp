@@ -36,7 +36,8 @@ void Controller::on_button_open_path_clicked() {
   try {
     model_data.OpenObject(path.toStdString());
     model_data.NormalizationAndCentralize();
-    memento.take(model_data);
+    memento.clear();
+    memento.takeFortune(model_data);
   } catch (std::exception &e) {
     QMessageBox::warning(this, "Error", e.what());
   }

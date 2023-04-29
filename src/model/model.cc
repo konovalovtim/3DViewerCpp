@@ -47,7 +47,7 @@ const std::vector<std::vector<unsigned>> &Model::GetFacets() {
   return model.facets;
 }
 
-void Model::Memento::take(Model &other) {
+void Model::Memento::takeFortune(Model &other) {
   Memento_axisMovement[xAxis] = other.axisMovement[xAxis];
   Memento_axisMovement[yAxis] = other.axisMovement[yAxis];
   Memento_axisMovement[zAxis] = other.axisMovement[zAxis];
@@ -80,4 +80,10 @@ void Model::Memento::recovery(Model &other) {
       }
       other.model.facets.push_back(vect);
   }
+}
+
+void Model::Memento::clear() {
+  Memento_model.facets.clear();
+  Memento_model.vertexes.clear();
+  Memento_vertexesAfterGetVertexes.clear();
 }

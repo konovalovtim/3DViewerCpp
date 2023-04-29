@@ -122,13 +122,14 @@ class Model {
      * @brief Функция для взятия на хранение состояния класса Model.
      * @param объект из которого хотим сохранить текущее состояние
      */
-    void take(Model &other);
+    void takeFortune(Model &other);
     /**
      * @brief Функция для востановления состояния класса Model
      * на момент взятия(вызова метода take).
      * @param объект состояние которого хотим откатить до состояние вызова метода take.
      */
     void recovery(Model &other);
+    void clear();
   private:
     VertexesAndFacets Memento_model{};
     std::vector<double>
