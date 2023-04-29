@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include "../model/model.h"
+#include "../model/object_model.h"
 
-struct CubeObj {
+struct ExampleObject {
   std::vector<double> vertexesData{0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0, 2.0,
                                    0.0, 0.0, 2.0, 2.0, 2.0, 0.0, 0.0, 2.0,
                                    0.0, 2.0, 2.0, 2.0, 0.0, 2.0, 2.0, 2.0,
@@ -12,10 +12,10 @@ struct CubeObj {
       {2, 3, 7}, {4, 6, 7}, {4, 7, 5}, {0, 4, 5}, {0, 5, 1}};
 };
 
-TEST(Model, normalParsing) {
+TEST(parsing, parsingObject) {
   s21::Model &object = *s21::Model::GetInstance();
   object.OpenObject("tests/test.txt");
-  CubeObj pattern;
+  ExampleObject pattern;
   EXPECT_EQ(pattern.vertexesData.size(), 30);
   for (std::size_t index{}; index < pattern.vertexesData.size(); ++index) {
     EXPECT_NEAR(pattern.vertexesData[index], object.GetVertexes()[index], 1e-6);
@@ -31,7 +31,7 @@ TEST(Model, normalParsing) {
   object.clear();
 }
 
-TEST(Model, clearParsing) {
+TEST(parsing, clearObject) {
   s21::Model &object = *s21::Model::GetInstance();
   object.OpenObject("tests/test.txt");
   EXPECT_FALSE(object.empty());
@@ -40,28 +40,7 @@ TEST(Model, clearParsing) {
   object.clear();
 }
 
-TEST(Model, errorParsing) {
-  s21::Model &object = *s21::Model::GetInstance();
-  EXPECT_ANY_THROW(object.OpenObject("tests/invalid_test.txt"));
-  EXPECT_TRUE(object.empty());
-  object.clear();
-}
-
-TEST(Model, errorParsing2) {
-  s21::Model &object = *s21::Model::GetInstance();
-  EXPECT_ANY_THROW(object.OpenObject("tests/invalid_size_vertex.txt"));
-  EXPECT_TRUE(object.empty());
-  object.clear();
-}
-
-TEST(Model, errorParsing3) {
-  s21::Model &object = *s21::Model::GetInstance();
-  EXPECT_ANY_THROW(object.OpenObject("tests/invalid_facet.txt"));
-  EXPECT_TRUE(object.empty());
-  object.clear();
-}
-
-TEST(Model, normalization) {
+TEST(moving, normalization) {
   s21::Model &object = *s21::Model::GetInstance();
   object.OpenObject("tests/test.txt");
   object.NormalizationAndCentralize();
@@ -71,17 +50,11 @@ TEST(Model, normalization) {
   object.clear();
 }
 
-TEST(Model, normalizationError) {
-  s21::Model &object = *s21::Model::GetInstance();
-  EXPECT_ANY_THROW(object.NormalizationAndCentralize());
-  object.clear();
-}
-
-TEST(Model, getVertexesForNotEqualSize) {
+TEST(moving, getVertexes) {
   s21::Model &object = *s21::Model::GetInstance();
   object.OpenObject("tests/test.txt");
   auto &dataVertexes = object.GetVertexes(2, 1);
-  CubeObj pattern;
+  ExampleObject pattern;
   for (std::size_t index{}; index < pattern.vertexesData.size(); index += 3) {
     EXPECT_NEAR(pattern.vertexesData[index + s21::Model::xAxis] * 0.5,
                 dataVertexes[index + s21::Model::xAxis], 1e-6);
@@ -93,11 +66,11 @@ TEST(Model, getVertexesForNotEqualSize) {
   object.clear();
 }
 
-TEST(Model, getVertexesForNotEqualSize2) {
+TEST(moving, getVertexes2) {
   s21::Model &object = *s21::Model::GetInstance();
   object.OpenObject("tests/test.txt");
   auto &dataVertexes = object.GetVertexes(1, 2);
-  CubeObj pattern;
+  ExampleObject pattern;
   for (std::size_t index{}; index < pattern.vertexesData.size(); index += 3) {
     EXPECT_NEAR(pattern.vertexesData[index + s21::Model::xAxis],
                 dataVertexes[index + s21::Model::xAxis], 1e-6);
@@ -109,13 +82,13 @@ TEST(Model, getVertexesForNotEqualSize2) {
   object.clear();
 }
 
-TEST(Model, RotateX) {
+TEST(moving, rotateX) {
   s21::Model &object = *s21::Model::GetInstance();
   object.OpenObject("tests/test.txt");
   double angle = 2;
   object.Rotate(angle, s21::Model::xAxis);
   auto &dataVertexes = object.GetVertexes();
-  CubeObj pattern;
+  ExampleObject pattern;
   for (std::size_t index{}; index < pattern.vertexesData.size(); index += 3) {
     double tmp_first = pattern.vertexesData[index + s21::Model::yAxis],
            tmp_second = pattern.vertexesData[index + s21::Model::zAxis];
@@ -129,13 +102,13 @@ TEST(Model, RotateX) {
   object.clear();
 }
 
-TEST(Model, RotateX2) {
+TEST(moving, rotateX2) {
   s21::Model &object = *s21::Model::GetInstance();
   object.OpenObject("tests/test.txt");
   double angle = -234;
   object.Rotate(angle, s21::Model::xAxis);
   auto &dataVertexes = object.GetVertexes();
-  CubeObj pattern;
+  ExampleObject pattern;
   for (std::size_t index{}; index < pattern.vertexesData.size(); index += 3) {
     double tmp_first = pattern.vertexesData[index + s21::Model::yAxis],
            tmp_second = pattern.vertexesData[index + s21::Model::zAxis];
@@ -149,13 +122,13 @@ TEST(Model, RotateX2) {
   object.clear();
 }
 
-TEST(Model, RotateY) {
+TEST(moving, rotateY) {
   s21::Model &object = *s21::Model::GetInstance();
   object.OpenObject("tests/test.txt");
   double angle = 15;
   object.Rotate(angle, s21::Model::yAxis);
   auto &dataVertexes = object.GetVertexes();
-  CubeObj pattern;
+  ExampleObject pattern;
   for (std::size_t index{}; index < pattern.vertexesData.size(); index += 3) {
     double tmp_first = pattern.vertexesData[index + s21::Model::xAxis],
            tmp_second = pattern.vertexesData[index + s21::Model::zAxis];
@@ -169,13 +142,13 @@ TEST(Model, RotateY) {
   object.clear();
 }
 
-TEST(Model, RotateY2) {
+TEST(moving, rotateY2) {
   s21::Model &object = *s21::Model::GetInstance();
   object.OpenObject("tests/test.txt");
   double angle = -57;
   object.Rotate(angle, s21::Model::yAxis);
   auto &dataVertexes = object.GetVertexes();
-  CubeObj pattern;
+  ExampleObject pattern;
   for (std::size_t index{}; index < pattern.vertexesData.size(); index += 3) {
     double tmp_first = pattern.vertexesData[index + s21::Model::xAxis],
            tmp_second = pattern.vertexesData[index + s21::Model::zAxis];
@@ -189,13 +162,13 @@ TEST(Model, RotateY2) {
   object.clear();
 }
 
-TEST(Model, RotateZ) {
+TEST(moving, rotateZ) {
   s21::Model &object = *s21::Model::GetInstance();
   object.OpenObject("tests/test.txt");
   double angle = 543;
   object.Rotate(angle, s21::Model::zAxis);
   auto &dataVertexes = object.GetVertexes();
-  CubeObj pattern;
+  ExampleObject pattern;
   for (std::size_t index{}; index < pattern.vertexesData.size(); index += 3) {
     double tmp_first = pattern.vertexesData[index + s21::Model::xAxis],
            tmp_second = pattern.vertexesData[index + s21::Model::yAxis];
@@ -209,13 +182,13 @@ TEST(Model, RotateZ) {
   object.clear();
 }
 
-TEST(Model, RotateZ2) {
+TEST(moving, rotateZ2) {
   s21::Model &object = *s21::Model::GetInstance();
   object.OpenObject("tests/test.txt");
   double angle = -84;
   object.Rotate(angle, s21::Model::zAxis);
   auto &dataVertexes = object.GetVertexes();
-  CubeObj pattern;
+  ExampleObject pattern;
   for (std::size_t index{}; index < pattern.vertexesData.size(); index += 3) {
     double tmp_first = pattern.vertexesData[index + s21::Model::xAxis],
            tmp_second = pattern.vertexesData[index + s21::Model::yAxis];
@@ -229,7 +202,7 @@ TEST(Model, RotateZ2) {
   object.clear();
 }
 
-TEST(Model, Move) {
+TEST(moving, move) {
   s21::Model &object = *s21::Model::GetInstance();
   object.OpenObject("tests/test.txt");
   double move_coords[3] = {42, -23, 1234};
@@ -237,7 +210,7 @@ TEST(Model, Move) {
   object.Move(move_coords[s21::Model::yAxis], s21::Model::yAxis);
   object.Move(move_coords[s21::Model::zAxis], s21::Model::zAxis);
   auto &dataVertexes = object.GetVertexes();
-  CubeObj pattern;
+  ExampleObject pattern;
   for (std::size_t index{}; index < pattern.vertexesData.size(); index += 3) {
     EXPECT_NEAR(pattern.vertexesData[index + s21::Model::xAxis] +
                     move_coords[s21::Model::xAxis],
@@ -249,5 +222,32 @@ TEST(Model, Move) {
                     move_coords[s21::Model::zAxis],
                 dataVertexes[index + s21::Model::zAxis], 1e-6);
   }
+  object.clear();
+}
+
+TEST(errors, error) {
+  s21::Model &object = *s21::Model::GetInstance();
+  EXPECT_ANY_THROW(object.OpenObject("tests/invalid_test.txt"));
+  EXPECT_TRUE(object.empty());
+  object.clear();
+}
+
+TEST(errors, error2) {
+  s21::Model &object = *s21::Model::GetInstance();
+  EXPECT_ANY_THROW(object.OpenObject("tests/invalid_size_vertex.txt"));
+  EXPECT_TRUE(object.empty());
+  object.clear();
+}
+
+TEST(errors, error3) {
+  s21::Model &object = *s21::Model::GetInstance();
+  EXPECT_ANY_THROW(object.OpenObject("tests/invalid_facet.txt"));
+  EXPECT_TRUE(object.empty());
+  object.clear();
+}
+
+TEST(errors, normalizationError) {
+  s21::Model &object = *s21::Model::GetInstance();
+  EXPECT_ANY_THROW(object.NormalizationAndCentralize());
   object.clear();
 }
