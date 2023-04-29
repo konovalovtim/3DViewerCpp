@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../model/object_model.h"
+#include "../model/model.h"
 
 struct ExampleObject {
   std::vector<double> vertexesData{0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0, 2.0,
@@ -222,6 +222,31 @@ TEST(moving, move) {
                     move_coords[s21::Model::zAxis],
                 dataVertexes[index + s21::Model::zAxis], 1e-6);
   }
+  object.clear();
+}
+
+TEST(pattern, memento) {
+  s21::Model &object = *s21::Model::GetInstance();
+
+  object.OpenObject("tests/test.txt");
+  ExampleObject pattern;
+  EXPECT_EQ(pattern.vertexesData.size(), 30);
+  for (std::size_t index{}; index < pattern.vertexesData.size(); ++index) {
+    EXPECT_NEAR(pattern.vertexesData[index], object.GetVertexes()[index], 1e-6);
+  }
+  for (std::size_t i{}; i < pattern.facetsData.size(); ++i) {
+    for (std::size_t j{}; j < pattern.facetsData[i].size(); ++j) {
+      EXPECT_EQ(pattern.facetsData[i][j], object.GetFacets()[i][j]);
+    }
+  }
+  EXPECT_EQ(object.size().first, 30);
+  EXPECT_EQ(object.size().second, 10);
+  EXPECT_FALSE(object.empty());
+
+  s21::Model::Memento memento1;
+  memento1.takeFortune(object);
+  memento1.recovery(object);
+  memento1.clear();
   object.clear();
 }
 

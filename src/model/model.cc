@@ -51,12 +51,12 @@ void Model::Memento::takeFortune(Model &other) {
   Memento_axisMovement[xAxis] = other.axisMovement[xAxis];
   Memento_axisMovement[yAxis] = other.axisMovement[yAxis];
   Memento_axisMovement[zAxis] = other.axisMovement[zAxis];
-  for (int i = 0; i < other.model.vertexes.size(); i++) {
+  for (size_t i = 0; i < other.model.vertexes.size(); i++) {
     Memento_model.vertexes.push_back(other.model.vertexes[i]);
   }
-  for (int i = 0; i < other.model.facets.size(); i++) {
+  for (size_t i = 0; i < other.model.facets.size(); i++) {
     std::vector<unsigned> vect{};
-    for (int j = 0; j < other.model.facets[i].size(); j++) {
+    for (size_t j = 0; j < other.model.facets[i].size(); j++) {
       vect.push_back(other.model.facets[i][j]);
     }
     Memento_model.facets.push_back(vect);
@@ -68,12 +68,12 @@ void Model::Memento::recovery(Model &other) {
   other.axisMovement[xAxis] = Memento_axisMovement[xAxis];
   other.axisMovement[yAxis] = Memento_axisMovement[yAxis];
   other.axisMovement[zAxis] = Memento_axisMovement[zAxis];
-  for (int i = 0; i < Memento_model.vertexes.size(); i++) {
+  for (size_t i = 0; i < Memento_model.vertexes.size(); i++) {
     other.model.vertexes.push_back(Memento_model.vertexes[i]);
   }
-  for (int i = 0; i < Memento_model.facets.size(); i++) {
+  for (size_t i = 0; i < Memento_model.facets.size(); i++) {
     std::vector<unsigned> vect{};
-    for (int j = 0; j < Memento_model.facets[i].size(); j++) {
+    for (size_t j = 0; j < Memento_model.facets[i].size(); j++) {
       vect.push_back(Memento_model.facets[i][j]);
     }
     other.model.facets.push_back(vect);
