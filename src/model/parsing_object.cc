@@ -3,7 +3,7 @@
 using namespace s21;
 
 void Model::ParsingVertex(std::vector<VertexesAndFacets> &models,
-                                std::string &line) {
+                          std::string &line) {
   if (models.back().facets.size()) {
     models.push_back(VertexesAndFacets());
   }
@@ -23,8 +23,8 @@ void Model::ParsingVertex(std::vector<VertexesAndFacets> &models,
 }
 
 void Model::ParsingFacet(std::vector<VertexesAndFacets> &models,
-                               std::string &line,
-                               std::size_t &position_old_vertexes) {
+                         std::string &line,
+                         std::size_t &position_old_vertexes) {
   if (models.empty() || models.back().vertexes.empty()) {
     throw std::invalid_argument("Invalid file .obj");
   }

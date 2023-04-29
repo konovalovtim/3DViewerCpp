@@ -82,11 +82,9 @@ void Model::NormalizationAndCentralize() {
   MoveReal(-(positionAxis[zAxis] + deltaAxis[zAxis] / 2), zAxis);
   Scale(100 / std::max(std::max(deltaAxis[xAxis], deltaAxis[yAxis]),
                        deltaAxis[zAxis]));
-  axisMovement[xAxis] = axisMovement[yAxis] = axisMovement[zAxis] =
-      0.f;
+  axisMovement[xAxis] = axisMovement[yAxis] = axisMovement[zAxis] = 0.f;
 }
 
 void Model::CentralizeAfterMove() {
-  axisMovement[xAxis] = axisMovement[yAxis] = axisMovement[zAxis] =
-      0.f;
+  axisMovement[xAxis] = axisMovement[yAxis] = axisMovement[zAxis] = 0.f;
 }

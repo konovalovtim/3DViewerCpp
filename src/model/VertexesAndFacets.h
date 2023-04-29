@@ -15,7 +15,7 @@ class VertexesAndFacets {
 };
 
 class Mediator {
-  public:
+ public:
   VertexesAndFacets model;
   std::vector<Mediator *> mediator;
 };

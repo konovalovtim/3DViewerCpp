@@ -115,21 +115,18 @@ void Controller::on_button_scaling_clicked() {
 }
 
 void Controller::on_button_reset_position_clicked() {
-    try {
-        memento.recovery(*Model::GetInstance());
-    } catch (std::exception &e) {
+  try {
+    memento.recovery(*Model::GetInstance());
+  } catch (std::exception &e) {
     QMessageBox::warning(this, "Error", e.what());
-    }
-    ui->widget->update();
+  }
+  ui->widget->update();
 }
 
-void Controller::on_dial_sliderMoved(int position)
-{
-    ui->scaling->setValue(position);
+void Controller::on_dial_sliderMoved(int position) {
+  ui->scaling->setValue(position);
 }
 
-void Controller::on_dial_valueChanged(int value)
-{
-    ui->scaling->setValue(value);
+void Controller::on_dial_valueChanged(int value) {
+  ui->scaling->setValue(value);
 }
-

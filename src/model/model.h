@@ -86,10 +86,10 @@ class Model {
   /**
    * @brief Функция подготавливает данные вершин для OpenGL
    * @details Функция берет исходные данные вершин, изменяет все вершины под
-   * Move так как он переносить только фиктивно и масштабирует под размер экрана.
-   * Масштабирование сделано из-за виджета OpenGL, который адаптируется под размер
-   * экрана только один раз. Функция занимает сложность прохождения по всему
-   * массиву вершин.
+   * Move так как он переносить только фиктивно и масштабирует под размер
+   * экрана. Масштабирование сделано из-за виджета OpenGL, который адаптируется
+   * под размер экрана только один раз. Функция занимает сложность прохождения
+   * по всему массиву вершин.
    * @param width ширина экрана
    * @param height высота экрана
    * @return вектор вершин правильной ориентации в пространстве
@@ -101,14 +101,11 @@ class Model {
    */
   const std::vector<std::vector<unsigned>> &GetFacets();
 
-  Model(const Model &) =
-      delete;  ///< Удаление конструктора копирования
+  Model(const Model &) = delete;  ///< Удаление конструктора копирования
   Model(Model &&) = delete;  ///< Удаление конструктора переноса
 
-  Model &operator=(const Model &) =
-      delete;  ///< Удаление оператора копирования
-  Model &operator=(Model &&) =
-      delete;  ///< Удаление оператора переноса
+  Model &operator=(const Model &) = delete;  ///< Удаление оператора копирования
+  Model &operator=(Model &&) = delete;  ///< Удаление оператора переноса
   /**
    * @brief Класс Хранитель (memento) Не нарушая инкапсуляции,
    * фиксирует и выносит за пределы объекта его внутреннее состояние,
@@ -116,8 +113,8 @@ class Model {
    * @return const std::vector<std::vector<unsigned>>&
    */
   class Memento {
-  public:
-    Memento () = default;
+   public:
+    Memento() = default;
     /**
      * @brief Функция для взятия на хранение состояния класса Model.
      * @param объект из которого хотим сохранить текущее состояние
@@ -126,14 +123,15 @@ class Model {
     /**
      * @brief Функция для востановления состояния класса Model
      * на момент взятия(вызова метода take).
-     * @param объект состояние которого хотим откатить до состояние вызова метода take.
+     * @param объект состояние которого хотим откатить до состояние вызова
+     * метода take.
      */
     void recovery(Model &other);
     void clear();
-  private:
+
+   private:
     VertexesAndFacets Memento_model{};
-    std::vector<double>
-        Memento_vertexesAfterGetVertexes{};
+    std::vector<double> Memento_vertexesAfterGetVertexes{};
     double Memento_axisMovement[3]{};
   };
 
@@ -142,9 +140,10 @@ class Model {
 
   VertexesAndFacets model{};  ///< Все исходные данные об объекте
   std::vector<double>
-      vertexesAfterGetVertexes{};  ///< Переменная хранящая вершины после вызова GetVertexes
+      vertexesAfterGetVertexes{};  ///< Переменная хранящая вершины после вызова
+                                   ///< GetVertexes
   double axisMovement[3]{};  ///< Переменная для хранения перемещений
-                                ///< задаваемых во время работы с объектом
+                             ///< задаваемых во время работы с объектом
 
   /**
    * @brief Функция для обработки линии facet
